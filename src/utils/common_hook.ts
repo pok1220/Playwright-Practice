@@ -50,10 +50,10 @@ BeforeAll(async function () {
 /// `Before` is run before each test
 Before(async function (this: ICustomWorld) {
   this.context = await browser.newContext({
-    viewport: { width: config.browserWidth, height: config.browserHeight },
+    viewport: { width: config.browserWidth, height: config.browserHeight }, //กลายเป็นขนาดจอที่เห็น
     baseURL: config.BASE_URL,
   });
-  this.page = await this.context.newPage();
+  this.page = await this.context.newPage(); //this คือ  world ของ iCustomWorld โดย Cucumber มี world เก็บ meta data เอาไว้
   this.page.on("console", (msg: ConsoleMessage) => {
     if (msg.type() === "log") {
       this.attach(msg.text());
@@ -74,7 +74,7 @@ After(async function (this: ICustomWorld, { pickle, result }) {
   if (result) {
     let nanoSeconds = result.duration.nanos;
     let milliseconds = nanoSeconds / Math.pow(10, 6);
-    this.attach(
+    this.attach( //สั่งปิด page
       `Status: ${result.status}. Duration: ${milliseconds} milliseconds`
     );
   }

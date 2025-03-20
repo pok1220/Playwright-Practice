@@ -22,7 +22,7 @@ When(
     const page = customWorld.page;
 
     if (page) {
-      const usernameInputField = page.locator("#user-name");
+      const usernameInputField = page.locator("#user-name"); //ดึงมา
       await usernameInputField?.fill(username);
 
       const passwordInputField = page.locator('input[name="password"]');

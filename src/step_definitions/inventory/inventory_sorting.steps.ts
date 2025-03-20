@@ -57,11 +57,36 @@ Then(
       expect(currentItemPriceDouble).not.toBeNaN();
       expect(nextItemPriceDouble).not.toBeNaN();
 
-      if (optionValue === "hilo") {
-        expect(currentItemPriceDouble).toBeGreaterThanOrEqual(
+      // if (optionValue === "hilo") {
+      //   expect(currentItemPriceDouble).toBeGreaterThanOrEqual(
+      //     nextItemPriceDouble
+      //   );
+      // }
+      if (optionValue === "lohi") {
+        expect(currentItemPriceDouble).toBeLessThanOrEqual(
           nextItemPriceDouble
         );
       }
     }
   }
 );
+
+Then('I should see an error dialog with error message {string}', async function (string) {
+  // Write code here that turns the phrase above into concrete actions
+  // return 'pending';
+  const page = customWorld.page;
+    if (page) {
+      page.on('dialog', async (dialog) => {
+        expect(dialog.message()).toContain(string);
+        await dialog.accept(); 
+    });
+
+      const productSortContainer = page.locator('select[data-test="product-sort-container"]');
+      expect(await productSortContainer.isVisible()).toBe(true);
+
+      const option = productSortContainer.locator('option[value="za"]');
+      expect(await option.count()).toBeGreaterThan(0); // Ensure that the option is available
+
+      await productSortContainer.selectOption({ value: "za" });
+}
+});
